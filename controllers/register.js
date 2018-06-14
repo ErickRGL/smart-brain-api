@@ -10,7 +10,6 @@ const handleRegister = (req, res, db, bcrypt) => {
     .then(loginEmail => {
       res.json(loginEmail[0]);
     })
-    })
     // db.transaction(trx => {
     //   trx.insert({
     //     hash: hash,
