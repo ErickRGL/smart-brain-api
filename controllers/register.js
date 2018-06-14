@@ -1,29 +1,19 @@
-const knex = require('knex');
-
-const db = knex({
-  client: 'pg',
-  connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  }
-});
-
-const handleRegister = (req, res, bcrypt) => {
+const handleRegister = (req, res, db, bcrypt) => {
   const { email, name, password } = req.body;
   if (!email || !name || !password) {
     return res.status(400).json('incorrect form submission');
   }
   const hash = bcrypt.hashSync(password);
-  console.log(email, name, password, hash, db);
-    this.db.transaction(trx => {
+  console.log(email, name, password, hash);
+    db.transaction(trx => {
       trx.insert({
         hash: hash,
         email: email
       })
-      .into("login")
-      .returning("email")
+      .into('login')
+      .returning('email')
       .then(loginEmail => {
-        return trx("users")
+        return trx('users')
           .returning('*')
           .insert({
             email: loginEmail[0],
