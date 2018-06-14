@@ -12,7 +12,7 @@ const handleRegister = (req, res, db, bcrypt) => {
       })
       .returning('email')
       .then(loginEmail => {
-        return trx('users')
+        return db('users').transacting(trx)
           .returning('*')
           .insert({
             email: loginEmail[0],
